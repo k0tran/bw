@@ -1,0 +1,21 @@
+This is cat program in BrainWash
+Usage: cat FILE
+
+First of all we need to check if there's two cli arguments
+>>>>>>>>--[>+[>+[>+[>+[>+[>+[>+[
+    Let's exit(1) for now
+    [-]<[-]<[-]<[-]<[-]<[-]<[-]<[-]+<
+    [-]<[-]<[-]<[-]<[-]<[-]<[-]<[-]
+    ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    %1
+    TODO: print usage
+]<-]<-]<-]<-]<-]<-]<-]
+
+There is exactly 2 arguments
+Let's exit(0) for now
+<[-]<[-]<[-]<[-]<[-]<[-]<[-]<[-]<
+[-]<[-]<[-]<[-]<[-]<[-]<[-]<[-]
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+%1
+
+TODO: actual fopen + write/read until EOF
