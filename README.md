@@ -2,26 +2,62 @@
 
 Remeber this really awesome language called [BrainFuck](https://en.wikipedia.org/wiki/Brainfuck)? Well, now you can make real CLI apps with it (not really).
 
-## Features
+## Features v0.1.0 (in progress)
 
+Compared to the default BF:
 - No `.,` instructions. That's too easy;
 - New syscall operator `%`;
-- Actual address of tape on tape (such a pain honestly).
-
-## How to syscall?
-
-Well, you can look up [examples](examples/README.md). But in general you have 8 cells (x64) for syscall id and then 0-6 arguments. Each argument takes 8 cells as well. When all arguments are set just use `%N` op on a starting cell of syscall id (N is the number of arguments).
+- New jump to pointer `{}` and ret `*` operators;
+- Tape addres, argc, argv are avaliable on the tape.
 
 ## WHY???
 
 Well, I really liked the idea of [systemf](https://github.com/ajyoon/systemf), but I thought that compilers are much cooler than interpreters and I wanted to have access to CLI arguments and ENV.
 
-## How to compile
+## More in details
 
-Currently there is only one way to compile this atrocity. With any C99 compiler, nasm and any linker:
+### Intial tape setup
+
+Each cell on tape is byte-sized. Addition and substraction to the cell value is wrapping. Amount of cells restricted by OS (it's literally stack).
+
+Before your BW programs starts there is a little setup:
+1. First ptr_size cells contain address of tape (this cell to be precise) (`$rsp - 8` in x64);
+2. Second ptr_size cells contain argc (`$rsp` in x64);
+3. Third ptr_size cells contain ptr to argv (`$rsp + 8` in x64).
+
+Note that strings on the stack stored as bytes, while pointers are little endian (big-endian and little-endian crossplatform is not supported)
+
+### Avaliable instructions
+
+- default BF instructions `+-<>[]`;
+- syscall instruction `%<syscall_name>` which takes next ptr_size * syscall_argc cells and makes a syscall;
+- jump instruction `{`, which changes current cell ptr to that which is stored on tape (ptr-sized). When `}` is met the change is reverted;
+- return intruction `*`. Returns from jump before meeting `}`.
+
+### Implemented optimizations
+
+- squash repeated instructions.
+
+TODO: [those optimizations](http://calmerthanyouare.org/2015/01/07/optimizing-brainfuck.html)
+
+### Supported platforms
+
+- linux-x64
+
+TODO: win64, arm64
+
+# Usage
+
+```
+./bw run <bw file>
+```
+
+## Compile
+
+Based cmake project only C99 compiler required:
 ```sh
-clang -std=c99 bw.c -Wall -o bw
-./bw examples/hw.bw > hw.asm
-nasm -f elf64 hw.asm -o hw.o
-ld hw.o -o hw
+mkdir -p build
+cd build
+cmake ..
+make # If you are using linux
 ```
