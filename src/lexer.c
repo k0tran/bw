@@ -8,7 +8,6 @@
 #include <string.h>
 #include <stdbool.h>
 #include <stdlib.h>
-#include <stdio.h>
 
 /// Parses one token. Returns None if all tokens are exausted
 parseTokenResult parseToken(const char *code, size_t start, size_t size) {

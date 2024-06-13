@@ -1,14 +1,43 @@
 // 2024 Sorochan Ilya
+// Here in BW we don't have functions
+// So AST is really an array of instructions (except for loop one)
 
-#pragma once
+#ifndef AST_H
+#define AST_H
 
-typedef enum ASTNodeType {
-    AST_NODE_PLUS,
-    AST_NODE_MINUS,
-    AST_NODE_LSHIFT,
-    AST_NODE_RSHIFT,
-    AST_NODE_LOOP,
-    AST_NODE_SYSCALL,
-    AST_NODE_RET,
-    AST_NODE_JUMP,
-} ASTNodeType;
+#include "lexer.h"
+
+datatype(
+    ASTNodeType,
+    (ASTNodeAdd, size_t),
+    (ASTNodeSub, size_t),
+    (ASTNodeLeft, size_t),
+    (ASTNodeRight, size_t),
+    (ASTNodeLoop, void *), // this must point to ASTNode
+    (ASTNodeSyscall, size_t),
+    (ASTNodeJump),
+    (ASTNodeRet)
+);
+
+typedef struct ASTNode {
+    ASTNodeType type;
+    struct ASTnode *next;
+} ASTNode;
+
+datatype(
+    parseASTResult,
+    (ASTTree, ASTNode *),
+    (ASTError, char *)
+);
+
+parseASTResult parseAST(const Token *tokens, size_t size);
+
+datatype(
+    parseASTNodeResult,
+    (ASTNodeValue, ASTNode *, size_t),
+    (ASTNodeError, char *)
+);
+
+parseASTNodeResult parseASTNode(const Token *tokens, size_t start, size_t size);
+
+#endif

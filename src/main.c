@@ -1,6 +1,7 @@
 /// 2024 Sorochan Ilya
 
 #include "args.h"
+#include "ast.h"
 #include "lexer.h"
 
 #include <stdio.h>
@@ -26,11 +27,20 @@ int main(int argc, char **argv) {
 
             match (tr) {
                 of(TokenizeList, tokens, size) {
-                    printf("Successfuly tokenized and got %zu tokens\n", *size);
 
-                    // TODO: compile
-
+                    parseASTResult par = parseAST(*tokens, *size);
                     free(*tokens);
+
+                    match(par) {
+                        of(ASTTree, value) {
+                            // TODO codegen
+                        }
+                        of(ASTError, msg) {
+                            puts(*msg);
+                            free(*msg);
+                            return 1;
+                        }
+                    }
                 }
                 of(TokenizeError, msg) {
                     puts(*msg);

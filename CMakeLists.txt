@@ -39,6 +39,7 @@ add_executable(${PROJECT_NAME}
     src/args.c
     src/common.c
     src/lexer.c
+    src/ast.c
 )
 target_compile_definitions(${PROJECT_NAME} PRIVATE VERSION="${CMAKE_PROJECT_VERSION}")
 target_link_libraries(${PROJECT_NAME} interface99 datatype99)
