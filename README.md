@@ -7,7 +7,7 @@ Remeber this really awesome language called [BrainFuck](https://en.wikipedia.org
 Compared to the default BF:
 - No `.,` instructions. That's too easy;
 - New syscall operator `%`;
-- New jump to pointer `^` and `&` operators;
+- New jump to pointer `*` and `&` operators;
 - Tape addres, argc, argv are avaliable on the tape.
 
 ## WHY???

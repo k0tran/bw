@@ -3,6 +3,7 @@
 #include "args.h"
 #include "ast.h"
 #include "lexer.h"
+#include "codegen.h"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -27,13 +28,15 @@ int main(int argc, char **argv) {
 
             match (tr) {
                 of(TokenizeList, tokens, size) {
-
                     parseASTResult par = parseAST(*tokens, *size);
                     free(*tokens);
 
                     match(par) {
-                        of(ASTTree, value) {
-                            // TODO codegen
+                        of(ASTTree, tree) {
+                            // Let's print to stdout for now
+                            dumpCode(*tree, stdout, 0);
+
+                            // TODO: free memeory from tree (loops are pain)
                         }
                         of(ASTError, msg) {
                             puts(*msg);

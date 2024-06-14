@@ -17,6 +17,7 @@
             }                                      \
             TOKEN##_break:;                        \
             n->type = NODE_TYPE(i - start);        \
+            start = i;                             \
         }
 
 parseASTNodeResult parseASTNode(const Token *tokens, size_t start, size_t size) {
@@ -45,19 +46,19 @@ parseASTNodeResult parseASTNode(const Token *tokens, size_t start, size_t size) 
             }
 
             // Once found build recursevily
-            parseASTNodeResult r = parseASTNode(tokens, start + 1, i);
+            parseASTResult r = parseAST(tokens + start + 1, i - start - 2);
             match (r) {
-                of(ASTNodeValue, value) n->type = ASTNodeLoop(*value);
-                of(ASTNodeError, err) return r;
+                of(ASTTree, tree) n->type = ASTNodeLoop(*tree);
+                of(ASTError, err) return ASTNodeError(*err);
             }
             start = i;
         }
         of(TokenLoopEnd) return ASTNodeError(format("Token loop end found (should not be)"));
-        of(TokenSyscall, syscall_id) n->type = ASTNodeSyscall(*syscall_id);
-        of(TokenJump) n->type = ASTNodeJump();
-        of(TokenRet) n->type = ASTNodeRet();
+        of(TokenSyscall, syscall_id) { n->type = ASTNodeSyscall(*syscall_id); start++; };
+        of(TokenJump) { n->type = ASTNodeJump(); start++; };
+        of(TokenRet) { n->type = ASTNodeRet(); start++; };
     }
-    return ASTNodeValue(n, start + 1);
+    return ASTNodeValue(n, start);
 }
 
 parseASTResult parseAST(const Token *tokens, size_t size) {

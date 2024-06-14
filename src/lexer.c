@@ -29,15 +29,14 @@ parseTokenResult parseToken(const char *code, size_t start, size_t size) {
                     return TokenError(format("Syscall name not provided\n"));
 
                 // Check if there is such syscall
-                i = j;
                 for (j = 0; j < SYSCALL_TABLE_SIZE; ++j)
-                    if (strncmp(SYSCALL_TABLE[j].name, code + i, size))
+                    if (!strncmp(SYSCALL_TABLE[j].name, code + i, size))
                         break;
 
                 if (j == SYSCALL_TABLE_SIZE)
                     return TokenError(format("Unrecognized syscall '%.*s'\n", size, code + i));
 
-                return TokenValue(TokenSyscall(j), ++i);
+                return TokenValue(TokenSyscall(j), i + size);
             }
             case '*': return TokenValue(TokenJump(), ++i);
             case '&': return TokenValue(TokenRet(), ++i);
