@@ -6,8 +6,8 @@ Remeber this really awesome language called [BrainFuck](https://en.wikipedia.org
 
 Compared to the default BF:
 - No `.,` instructions. That's too easy;
-- New syscall operator `%`;
-- New jump to pointer `*` and `&` operators;
+- New syscall `%` and `$` syscall operators;
+- New jump to pointer `*` and return `&` operators;
 - Tape addres, argc, argv are avaliable on the tape.
 
 ## WHY???
@@ -31,6 +31,7 @@ Note that strings on the stack stored as bytes, while pointers are little endian
 
 - default BF instructions `+-<>[]`;
 - syscall instruction `%<syscall_name>` which takes next ptr_size * syscall_argc cells and makes a syscall;
+- to store return value of syscall to pointer use `$`;
 - `*` instruction moves current cell ptr to another register and changes current cell ptr to that what lies on tape (ptr-sized);
 - `&` instruction moves to current cell ptr from register that is used by `*`.
 

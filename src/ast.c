@@ -55,6 +55,7 @@ parseASTNodeResult parseASTNode(const Token *tokens, size_t start, size_t size) 
         }
         of(TokenLoopEnd) return ASTNodeError(format("Token loop end found (should not be)"));
         of(TokenSyscall, syscall_id) { n->type = ASTNodeSyscall(*syscall_id); start++; };
+        of(TokenRetval) { n->type = ASTNodeRetval(); start++; }
         of(TokenJump) { n->type = ASTNodeJump(); start++; };
         of(TokenRet) { n->type = ASTNodeRet(); start++; };
     }

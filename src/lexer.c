@@ -38,6 +38,7 @@ parseTokenResult parseToken(const char *code, size_t start, size_t size) {
 
                 return TokenValue(TokenSyscall(j), i + size);
             }
+            case '$': return TokenValue(TokenRetval(), ++i);
             case '*': return TokenValue(TokenJump(), ++i);
             case '&': return TokenValue(TokenRet(), ++i);
             default: {} // Let loop go

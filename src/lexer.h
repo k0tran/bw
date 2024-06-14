@@ -16,6 +16,7 @@ datatype(
     (TokenLoopStart),
     (TokenLoopEnd),
     (TokenSyscall, size_t),
+    (TokenRetval),
     (TokenJump),
     (TokenRet)
 );

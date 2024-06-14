@@ -63,8 +63,9 @@ size_t dumpCode(ASTNode *head, FILE *out, size_t loop_id) {
                     fputs("    mov r9, [rbx - 40]\n", out);
                 fputs("    syscall\n", out);
             }
-            of(ASTNodeJump) fputs("mov rcx, rbx\nmov rbx, [rbx]\n", out);
-            of(ASTNodeRet) fputs("mov rbx, rcx\n", out);
+            of(ASTNodeRetval) fputs("    mov [rbx], rax\n", out);
+            of(ASTNodeJump) fputs("    mov rcx, rbx\n    mov rbx, [rbx]\n", out);
+            of(ASTNodeRet) fputs("    mov rbx, rcx\n", out);
         }
         head = head->next;
     }

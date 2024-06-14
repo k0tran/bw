@@ -15,6 +15,7 @@ datatype(
     (ASTNodeRight, size_t),
     (ASTNodeLoop, void *), // this must point to ASTNode
     (ASTNodeSyscall, size_t),
+    (ASTNodeRetval),
     (ASTNodeJump),
     (ASTNodeRet)
 );
